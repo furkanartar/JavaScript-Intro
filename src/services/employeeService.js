@@ -1,4 +1,5 @@
-import DataError from '../models/dataError.js';
+import { users } from '../data/users.js';
+
 export default class EmployeeService {
   constructor(loggerService) {
     this.loggerService = loggerService;
@@ -6,12 +7,26 @@ export default class EmployeeService {
     this.errors = [];
   }
 
+  load(){
+    this.employees = users.filter(user => user.type === 'employee');
+  }
+
   add(employee) {
-    if (!this.checkEmployeeValidityForErrors(employee)) {
-      this.employees.push(employee);
-    }
+    //iş kuralı eklenecek sonra proje finito
+    // if (!this.checkEmployeeValidityForErrors(employee)) {
+    //   this.employees.push(employee);
+    // }
     
     this.loggerService.log(employee);
+  }
+
+  update(employee) {
+    let oldEmployeeIndex = this.employees.findIndex(employee => employee.id === employee.id);
+    this.employees[oldEmployeeIndex] = employee;
+  }
+
+  delete(id) {
+    this.employees = this.employees.filter(employee => employee.id !== id);
   }
 
   getAll() {
@@ -19,7 +34,7 @@ export default class EmployeeService {
   }
 
   getById(id) {
-    return this.employees.find((employee) => employee.id === id);
+    return this.employees.find(employee => employee.id === id);
   }
 
   getBySorted() {
@@ -32,31 +47,5 @@ export default class EmployeeService {
         return -1;
       }
     });
-  }
-
-  //formik ayrıca validator klasörüne taşıyak
-  checkEmployeeValidityForErrors(employee) {
-    let requiredFields = "id firstName lastName age city".split(" ");
-    let hasErrors = false;
-    for (const field of requiredFields) {
-      if (!employee[field]) {
-        hasErrors = true;
-        this.errors.push(
-          new DataError(`Validation problem. ${field} is required`, employee)
-        );
-      }
-    }
-
-    if (Number.isNaN(Number.parseInt(+employee.age))) {
-      hasErrors = true;
-      this.errors.push(
-        new DataError(
-          `Validation problem. ${employee.age} is not a number`,
-          employee
-        )
-      );
-    }
-
-    return hasErrors;
   }
 }

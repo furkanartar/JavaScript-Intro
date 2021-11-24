@@ -1,30 +1,43 @@
-import users from "../data/users.js";
-import DataError from "../models/dataError.js";
+import { users } from '../data/users.js';
 
 export default class UserService {
-    
   constructor(loggerService) {
-    this.errors = [];
-    this.users = [];
     this.loggerService = loggerService;
+    this.users = [];
+    this.errors = [];
   }
 
-  add(users) {
-    if (!this.checkUserValidityForErrors(users)) {
-      this.users.push(users);
-    }
-    // this.loggerService.log(users);
+  load(){
+    this.users = users.filter(user => user.type === 'user');
   }
 
-  getAllUsers() {
+  add(user) {
+    //iş kuralı eklenecek sonra proje finito
+    // if (!this.checkEmployeeValidityForErrors(employee)) {
+    //   this.employees.push(employee);
+    // }
+    
+    this.loggerService.log(user);
+  }
+
+  update(user) {
+    let olduserIndex = this.users.findIndex(user => user.id === user.id);
+    this.user[olduserIndex] = user;
+  }
+
+  delete(id) {
+    this.users = this.users.filter(user => user.id !== id);
+  }
+
+  getAll() {
     return this.users;
   }
 
-  getUserById(id) {
-    return this.users.find((users) => user.id === id);
+  getById(id) {
+    return this.user.find(user => user.id === id);
   }
 
-  getUsersSorted() {
+  getBySorted() {
     return this.users.sort((user1, user2) => {
       if (user1.firstName > user2.firstName) {
         return 1;
@@ -34,28 +47,5 @@ export default class UserService {
         return -1;
       }
     });
-  }
-
-  //formik ayrıca validator klasörüne taşıyak
-  checkUserValidityForErrors(user) {
-    let requiredFields = "id firstName lastName age city".split(" ");
-    let hasErrors = false;
-    for (const field of requiredFields) {
-      if (!user[field]) {
-        hasErrors = true;
-        this.errors.push(
-          new DataError(`Validation problem. ${field} is required`, user)
-        );
-      }
-    }
-
-    if (Number.isNaN(Number.parseInt(+user.age))) {
-      hasErrors = true;
-      this.errors.push(
-        new DataError(`Validation problem. ${user.age} is not a number`, user)
-      );
-    }
-
-    return hasErrors;
   }
 }

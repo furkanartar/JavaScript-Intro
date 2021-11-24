@@ -1,26 +1,43 @@
+import { users } from '../data/users.js';
+
 export default class CustomerService {
-  loggerService = null;
-  customers = [];
   constructor(loggerService) {
     this.loggerService = loggerService;
+    this.customers = [];
+    this.errors = [];
+  }
+
+  load(){
+    this.customers = users.filter(user => user.type === 'customer');
   }
 
   add(customer) {
-    if (!this.checkCustomerValidityForErrors(customer)) {
-      this.customers.push(customer);
-    }
+    //iş kuralı eklenecek sonra proje finito
+    // if (!this.checkEmployeeValidityForErrors(customer)) {
+    //   this.employees.push(employee);
+    // }
+    
     this.loggerService.log(customer);
   }
 
-  getAllCustomers() {
+  update(customer) {
+    let oldCustomerIndex = this.customers.findIndex(customer => customer.id === customer.id);
+    this.customers[oldCustomerIndex] = customer;
+  }
+
+  delete(id) {
+    this.customers = this.customers.filter(customer => customer.id !== id);
+  }
+
+  getAll() {
     return this.customers;
   }
 
-  getCustomerById(id) {
-    return this.customers.find((customer) => customer.id === id);
+  getById(id) {
+    return this.customers.find(customer => customer.id === id);
   }
 
-  getCustomersSorted() {
+  getBySorted() {
     return this.customers.sort((customer1, customer2) => {
       if (customer1.firstName > customer2.firstName) {
         return 1;
@@ -30,31 +47,5 @@ export default class CustomerService {
         return -1;
       }
     });
-  }
-
-  //formik ayrıca validator klasörüne taşıyak
-  checkCustomerValidityForErrors(customer) {
-    let requiredFields = "id firstName lastName age city".split(" ");
-    let hasErrors = false;
-    for (const field of requiredFields) {
-      if (!customer[field]) {
-        hasErrors = true;
-        this.errors.push(
-          new DataError(`Validation problem. ${field} is required`, customer)
-        );
-      }
-    }
-
-    if (Number.isNaN(Number.parseInt(+customer.age))) {
-      hasErrors = true;
-      this.errors.push(
-        new DataError(
-          `Validation problem. ${customer.age} is not a number`,
-          customer
-        )
-      );
-    }
-
-    return hasErrors;
   }
 }

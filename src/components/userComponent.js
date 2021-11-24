@@ -1,12 +1,25 @@
-// import User from "../models/user.js";
-// import UserService from "../services/userService.js";
-// import MongoLogger from "../crossCuttingConcerns/logging/mongoLogger.js";
+import MongoLogger from '../core/crossCuttingConcerns/logging/mongoLogger.js'
+import UserService from '../services/userService.js'
+import User from '../models/user.js';
 
-// console.log("user component yüklendi");
+const mongoLogger = new MongoLogger()
+const userService = new UserService(mongoLogger)
 
-// let userService = new UserService();
+let engin = new User(1, "Engin", "Demiroğ", "Ankara", 36)
+let ahmet = new User(2, "Ahmet", "ALAN", "Bursa")
+let furkan = new User(3, "Furkan", "ARTAR", "Bursa", 18)
+let yeni = new User(1, "yeni", "yeni", "yeni", 11)
+userService.load();
 
-// let user = new User(1, "Engin", "DEMİROĞ", "Ankara", 36);
-// userService.add(user);
+userService.add(engin);
+// userService.add(ahmet);
+// userService.add(furkan);
 
-// console.log(userService.getAllUsers());
+console.log(userService.getAll());
+// userService.getBySorted()
+// userService.getById(2)
+// userService.delete(2)
+// userService.update(yeni);
+// userService.getAll()
+
+
