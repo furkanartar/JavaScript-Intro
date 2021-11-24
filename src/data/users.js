@@ -1,5 +1,3 @@
-
-//id, firstName, lastName, city,age, creditCardNumber
 export const users = [
     {
         id: 1,
@@ -56,5 +54,3 @@ export const users = [
         type: "employee"
     }
 ]
-
-//23.05 Dersteyiz
