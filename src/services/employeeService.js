@@ -5,6 +5,7 @@ export default class EmployeeService {
     this.loggerService = loggerService;
     this.employees = [];
     this.errors = [];
+    this.employeeValidator = new EmployeeValidator();
   }
 
   load(){
@@ -12,10 +13,13 @@ export default class EmployeeService {
   }
 
   add(employee) {
-    //iş kuralı eklenecek sonra proje finito
-    // if (!this.checkEmployeeValidityForErrors(employee)) {
-    //   this.employees.push(employee);
-    // }
+    let result = this.employeeValidator.validate(employee);
+    
+    if (result.length > 0) {
+      return result;
+    } else {
+      this.employees.push(employee);
+    }
     
     this.loggerService.log(employee);
   }

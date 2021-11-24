@@ -50,7 +50,6 @@ export const users = [
         lastName: "Arı",
         city: "Diyarbakır",
         age: 20,
-        salary: 15000,
         type: "user"
     }
 ]

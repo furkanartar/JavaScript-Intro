@@ -1,3 +1,4 @@
+import CustomerValidator from '../core/utilities/business/customerValidator.js';
 import { users } from '../data/users.js';
 
 export default class CustomerService {
@@ -5,6 +6,7 @@ export default class CustomerService {
     this.loggerService = loggerService;
     this.customers = [];
     this.errors = [];
+    this.customerValidator = new CustomerValidator();
   }
 
   load(){
@@ -12,10 +14,13 @@ export default class CustomerService {
   }
 
   add(customer) {
-    //iş kuralı eklenecek sonra proje finito
-    // if (!this.checkEmployeeValidityForErrors(customer)) {
-    //   this.employees.push(employee);
-    // }
+    let result = this.customerValidator.validate(customer);
+    
+    if (result.length > 0) {
+      return result;
+    } else {
+      this.customers.push(customer);
+    }
     
     this.loggerService.log(customer);
   }

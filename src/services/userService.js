@@ -1,3 +1,4 @@
+import UserValidator from '../core/utilities/business/userValidator.js';
 import { users } from '../data/users.js';
 
 export default class UserService {
@@ -5,6 +6,7 @@ export default class UserService {
     this.loggerService = loggerService;
     this.users = [];
     this.errors = [];
+    this.userValidator = new UserValidator();
   }
 
   load(){
@@ -12,10 +14,13 @@ export default class UserService {
   }
 
   add(user) {
-    //iş kuralı eklenecek sonra proje finito
-    // if (!this.checkEmployeeValidityForErrors(employee)) {
-    //   this.employees.push(employee);
-    // }
+    let result = this.userValidator.validate(user);
+    
+    if (result.length > 0) {
+      return result;
+    } else {
+      this.users.push(user);
+    }
     
     this.loggerService.log(user);
   }
