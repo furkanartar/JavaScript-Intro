@@ -1,25 +1,28 @@
+import DataError from '../models/dataError.js';
 export default class EmployeeService {
   constructor(loggerService) {
     this.loggerService = loggerService;
     this.employees = [];
+    this.errors = [];
   }
 
   add(employee) {
     if (!this.checkEmployeeValidityForErrors(employee)) {
       this.employees.push(employee);
     }
+    
     this.loggerService.log(employee);
   }
 
-  getAllEmployees() {
+  getAll() {
     return this.employees;
   }
 
-  getEmployeeById(id) {
+  getById(id) {
     return this.employees.find((employee) => employee.id === id);
   }
 
-  getEmployeesSorted() {
+  getBySorted() {
     return this.employees.sort((employee1, employee2) => {
       if (employee1.firstName > employee2.firstName) {
         return 1;

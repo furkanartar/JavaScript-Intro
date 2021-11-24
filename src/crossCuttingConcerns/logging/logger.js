@@ -1,5 +1,13 @@
-export default class BaseLogger{
-    log(data){
-        console.log("Default logger: ", data.firstName)
-    }
+export default class BaseLogger {
+  constructor() {
+    this.datas = [];
+  }
+
+  log(data) {
+    this.datas.push(data);
+  }
+
+  getAll() {
+    return this.datas;
+  }
 }

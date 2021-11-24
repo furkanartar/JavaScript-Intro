@@ -11,7 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "es6-module-loader": "^0.17.11",
-    "traceur": "0.0.108"
+    "traceur": "0.0.108",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "lite-server": "^2.2.0"
