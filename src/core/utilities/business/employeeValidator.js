@@ -1,5 +1,5 @@
 export default class EmployeeValidator {
-  static validate(customer) {
+  validate(customer) {
     const errors = [];
     if (!user.id) {
       errors.push("First name is required");

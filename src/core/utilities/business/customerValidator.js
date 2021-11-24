@@ -1,5 +1,5 @@
 export default class CustomerValidator {
-  static validate(customer) {
+  validate(customer) {
     const errors = [];
     if (!user.id) {
       errors.push("First name is required");

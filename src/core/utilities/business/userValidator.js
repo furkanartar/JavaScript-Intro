@@ -1,5 +1,5 @@
 export default class UserValidator {
-  static validate(user) {
+  validate(user) {
     let errors = [];
     if (!user.id) {
       errors.push("First name is required");

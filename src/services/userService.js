@@ -16,11 +16,11 @@ export default class UserService {
   add(user) {
     let result = this.userValidator.validate(user);
     
-    if (result.length > 0) {
-      return result;
-    } else {
-      this.users.push(user);
-    }
+    // if (result.length > 0) {
+    //   return result;
+    // } else {
+    //   this.users.push(user);
+    // }
     
     this.loggerService.log(user);
   }
