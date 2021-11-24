@@ -21,4 +21,4 @@ console.log("İsme göre alfabetik sıralanmış kullanıcı listesi: ", employe
 console.log("MongoLogger'daki tüm kayıtlar:", mongoLogger.getAll());
 
 let employeeValidators = new EmployeeValidators();
-// employeeValidators.checkValidity(engin);
+ employeeValidators.checkValidity(engin);
