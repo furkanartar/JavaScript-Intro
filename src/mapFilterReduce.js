@@ -1,31 +1,45 @@
-//map
-let products = [
-    { id: 1, name: "Acer Laptop", unitPrice: 15000 },
-    { id: 2, name: "Monster Laptop", unitPrice: 16000 },
-    { id: 3, name: "Asus Laptop", unitPrice: 17000 },
-    { id: 4, name: "Dell Laptop", unitPrice: 18000 },
-    { id: 5, name: "Casper Laptop", unitPrice: 19000 },
-  ];
-  
-  console.log("<ul>");
-  products.map((product) => console.log(`<li>${product.name}</li>`));
-  console.log("</ul>");
-  
-  //filter
-  //filter 0 eleman bile olsa sonucu yeni bir array olarak döner.
-  
-  let filteredProducts=products.filter(product=>product.unitPrice>16000)
-  console.log(filteredProducts)
-  
-  //reduce
-  let cartTotal=products.reduce((acc,product)=>acc+product.unitPrice,0)
-  console.log(cartTotal)
-  
-  let cartTotal2=products.filter(product=>product.unitPrice>16000)
-  .map(product=>{
-      product.unitPrice=product.unitPrice*1.18
-      return product
-  })
-  .reduce((acc,product)=>acc+product.unitPrice,0)
-  
-  console.log(cartTotal2)
+let cart = [
+    {id:1, productName:"Telefon", quantity:3, unitPrice:4000},
+    {id:2, productName:"Bardak", quantity:2, unitPrice:30},
+    {id:3, productName:"Kalem", quantity:1, unitPrice:20},
+    {id:4, productName:"Şarj Cihazı", quantity:2, unitPrice:100},
+    {id:5, productName:"Kitap", quantity:3, unitPrice:30},
+    {id:6, productName:"Pot", quantity:5, unitPrice:150},
+]
+
+console.log("<ul>")
+cart.map(product=>{
+    console.log("<li>"+product.productName + " : " 
+    + product.unitPrice * product.quantity+"</li>")
+})
+console.log("</ul>")
+
+let total = cart.reduce((acc,product)=>acc+ product.unitPrice * product.quantity,0)
+
+//23.00 Dersteyiz
+console.log(total)
+
+
+let quantityOver2 = cart.filter(product=>product.quantity>2)
+
+console.log(quantityOver2)
+
+function addToCart(sepet) {
+    sepet.push({id:7, productName:"Ruhsat", quantity:1, unitPrice:20})
+}
+
+
+
+addToCart(cart)
+
+console.log(cart)
+
+let sayi = 10
+
+function sayiTopla(number) {
+    number += 1
+}
+sayiTopla(sayi)
+console.log(sayi)
+
+//23.00 Dersteyiz
