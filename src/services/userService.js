@@ -1,14 +1,15 @@
-import UserValidator from "../core/utilities/business/validationRules/customValidation/userValidator.js";
 import { users } from "../data/users.js";
 import ErrorDataResult from "../core/utilities/results/errorDataResult.js";
 import SuccessDataResult from "../core/utilities/results/successDataResult.js";
+import Messages from "../core/utilities/constants/messages.js";
 
 export default class UserService {
-  constructor(loggerService) {
+  constructor(loggerService, userValidatorService) {
     this.loggerService = loggerService;
+    this.userValidatorService = userValidatorService;
     this.users = [];
     this.errors = [];
-    this.userValidator = new UserValidator();
+    this.messages = new Messages();
   }
 
   load() {
@@ -16,37 +17,43 @@ export default class UserService {
   }
 
   add(user) {
-    let result = this.userValidator.validate(user);
+    let result = this.userValidatorService.validate(user);
 
     if (result.length > 0) {
       this.loggerService.log(new ErrorDataResult(user, result));
     } else {
       this.users.push(user);
-      this.loggerService.log(new SuccessDataResult(user, "User has been added."));
+      this.loggerService.log(new SuccessDataResult(user, this.messages.add(user.firstName)));
     }
   }
 
-  update(user) {
-    let olduserIndex = this.users.findIndex((user) => user.id === user.id);
-    this.user[olduserIndex] = user;
-    this.loggerService.log(new SuccessDataResult(user, "User has been updated."));
+  update(newUser) {
+    let result = this.userValidatorService.validate(user);
+
+    if (result.length > 0) {
+      this.loggerService.log(new ErrorDataResult(newUser, result));
+    } else {
+      let olduserIndex = this.users.findIndex((user) => user.id === newUser.id);
+      this.user[olduserIndex] = newUser;
+      this.loggerService.log(new SuccessDataResult(newUser, this.messages.update(newUser.firstName)));
+    }
   }
 
   delete(id) {
     this.users = this.users.filter((user) => user.id !== id);
-    this.loggerService.log(new SuccessDataResult(user, "User has been deleted."));
+    this.loggerService.log(new SuccessDataResult(user, this.messages.delete(user.firstName)));
   }
 
   getAll() {
-    return this.users;
+    return new SuccessDataResult(this.users);
   }
 
   getById(id) {
-    return this.user.find((user) => user.id === id);
+    return new SuccessDataResult(this.users.find(user => user.id === id));
   }
 
   getBySorted() {
-    return this.users.sort((user1, user2) => {
+    let result = this.users.sort((user1, user2) => {
       if (user1.firstName > user2.firstName) {
         return 1;
       } else if (user1.firstName === user2.firstName) {
@@ -55,5 +62,7 @@ export default class UserService {
         return -1;
       }
     });
+
+    return new SuccessDataResult(result);
   }
 }

@@ -1,27 +1,24 @@
-import MongoLogger from '../core/crossCuttingConcerns/logging/mongoLogger.js'
-import UserService from '../services/userService.js'
-import User from '../models/user.js';
+import MongoLogger from "../core/crossCuttingConcerns/logging/mongoLogger.js";
+import UserService from "../services/userService.js";
+import User from "../models/user.js";
+import CustomUserValidator from "../core/utilities/business/validationRules/customValidation/customUserValidator.js";
+console.log("User component yüklendi.");
+const mongoLogger = new MongoLogger();
+const customUserValidator = new CustomUserValidator();
+const userService = new UserService(mongoLogger, customUserValidator);
 
-const mongoLogger = new MongoLogger()
-const userService = new UserService(mongoLogger)
-
-let engin = new User(1, "Engin", "Demiroğ", "Ankara", 36)
-let ahmet = new User(2, "Ahmet", "ALAN", "Bursa")
-let furkan = new User(3, "Furkan", "ARTAR", "Bursa", 18)
-let yeni = new User(1, "yeni", "yeni", "yeni", 11)
 userService.load();
-console.log(userService.getAll());
 
+let engin = new User(7, "Engin", "DEMİROĞ", "Ankara", 36);
+let esra = new User(8, "Esra", "SANCAK", "Ankara");
 userService.add(engin);
-userService.add(ahmet);
-// userService.add(furkan);
+userService.add(esra);
 
-// userService.getBySorted()
-// userService.getById(2)
-// userService.delete(2)
-// userService.update(yeni);
-// userService.getAll()
+console.log("Kullanıcı listesi: ", userService.getAll());
+console.log("Mongo logger'daki tüm kayıtlar: ", mongoLogger.getAll());
 
-console.log("Mongo kayıtları: ", mongoLogger.getAll());
-
-
+// console.log(userService.getBySorted());
+// console.log(userService.getById(7));
+// console.log(userService.delete(8));
+// console.log(userService.update(newUser));
+// console.log(userService.getAll());

@@ -1,25 +1,25 @@
 import MongoLogger from '../core/crossCuttingConcerns/logging/mongoLogger.js'
 import CustomerService from '../services/customerService.js'
-import User from '../models/user.js';
-
+import Customer from '../models/customer.js';
+import CustomCustomerValidator from '../core/utilities/business/validationRules/customValidation/customCustomerValidator.js';
+console.log("");
+console.log("");
+console.log("Customer component yüklendi.");
 const mongoLogger = new MongoLogger()
-const customerService = new CustomerService(mongoLogger)
+const customCustomerValidator = new CustomCustomerValidator()
+const customerService = new CustomerService(mongoLogger, customCustomerValidator)
 
-let engin = new User(1, "Engin", "Demiroğ", "Ankara", 36)
-let ahmet = new User(2, "Ahmet", "ALAN", "Bursa")
-let furkan = new User(3, "Furkan", "ARTAR", "Bursa", 18)
-let yeni = new User(1, "yeni", "yeni", "yeni", 11)
+let furkan = new Customer(9, "Furkan", "ARTAR", "Bursa", 18, 1234561234561234)
+let sukran = new Customer(10, "Şükran", "KARAKAYA", "ANTALYA", 19)
+
 customerService.load();
+customerService.add(furkan);
+customerService.add(sukran);
+console.log("Kullanıcı listesi: ", customerService.getAll());
 
-customerService.add(engin);
-// customerService.add(ahmet);
-// customerService.add(furkan);
-
-console.log(customerService.getAll());
+console.log("Mongo logger'daki tüm kayıtlar: ", mongoLogger.getAll());
 // customerService.getBySorted()
 // customerService.getById(2)
 // customerService.delete(2)
-// customerService.update(yeni);
+// customerService.update(newCustomer);
 // customerService.getAll()
-
-

@@ -1,11 +1,15 @@
 import { users } from '../data/users.js';
+import ErrorDataResult from "../core/utilities/results/errorDataResult.js";
+import SuccessDataResult from "../core/utilities/results/successDataResult.js";
+import Messages from '../core/utilities/constants/messages.js';
 
 export default class EmployeeService {
-  constructor(loggerService) {
+  constructor(loggerService, employeeValidatorService) {
     this.loggerService = loggerService;
     this.employees = [];
     this.errors = [];
-    this.employeeValidator = new EmployeeValidator();
+    this.employeeValidatorService = employeeValidatorService;
+    this.messages = new Messages();
   }
 
   load(){
@@ -13,36 +17,43 @@ export default class EmployeeService {
   }
 
   add(employee) {
-    let result = this.employeeValidator.validate(employee);
-    
+    let result = this.employeeValidatorService.validate(employee);
+
     if (result.length > 0) {
-      return result;
+      this.loggerService.log(new ErrorDataResult(employee, result));
     } else {
       this.employees.push(employee);
+      this.loggerService.log(new SuccessDataResult(employee, this.messages.add(employee.firstName)));
     }
-    
-    this.loggerService.log(employee);
   }
 
-  update(employee) {
-    let oldEmployeeIndex = this.employees.findIndex(employee => employee.id === employee.id);
-    this.employees[oldEmployeeIndex] = employee;
+  update(newEmployee) {
+    let result = this.employeeValidatorService.validate(newEmployee);
+
+    if (result.length > 0) {
+      this.loggerService.log(new ErrorDataResult(newEmployee, result));
+    } else {
+      let oldEmployeeIndex = this.employees.findIndex((employee) => employee.id === newEmployee.id);
+      this.employees[oldEmployeeIndex] = newEmployee;
+      this.loggerService.log(new SuccessDataResult(newEmployee, this.messages.update(newEmployee.firstName)));
+    }
   }
 
   delete(id) {
-    this.employees = this.employees.filter(employee => employee.id !== id);
+    this.employees = this.employees.filter((employee) => employee.id !== id);
+    this.loggerService.log(new SuccessDataResult(employee, this.messages.delete(uemployeeer.firstName)));
   }
 
   getAll() {
-    return this.employees;
+    return new SuccessDataResult(this.employees);
   }
 
   getById(id) {
-    return this.employees.find(employee => employee.id === id);
+    return new SuccessDataResult(this.employees.find(employee => employee.id === id));
   }
 
   getBySorted() {
-    return this.employees.sort((employee1, employee2) => {
+    let result = this.employees.sort((employee1, employee2) => {
       if (employee1.firstName > employee2.firstName) {
         return 1;
       } else if (employee1.firstName === employee2.firstName) {
@@ -51,5 +62,7 @@ export default class EmployeeService {
         return -1;
       }
     });
+
+    return new SuccessDataResult(result);
   }
 }

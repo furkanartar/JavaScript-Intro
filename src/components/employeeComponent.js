@@ -1,25 +1,25 @@
-import MongoLogger from '../core/crossCuttingConcerns/logging/mongoLogger.js'
+import ElasticLogger from '../core/crossCuttingConcerns/logging/elasticLogger.js'
 import EmployeeService from '../services/employeeService.js'
-import User from '../models/user.js';
+import Employee from '../models/employee.js';
+import CustomEmployeeValidator from '../core/utilities/business/validationRules/customValidation/customEmployeeValidator.js';
+console.log("");
+console.log("");
+console.log("Employee Component Yüklendi");
+const elasticLogger = new ElasticLogger()
+const customEmployeeValidator = new CustomEmployeeValidator()
+const employeeService = new EmployeeService(elasticLogger, customEmployeeValidator)
 
-const mongoLogger = new MongoLogger()
-const employeeService = new EmployeeService(mongoLogger)
+let ahmet = new Employee(2, "Ahmet", "ALAN", "Bursa")
+let cemile = new Employee(2, "Cemile", "ÖZALAN", "Antalya", 18, 19999)
 
-let engin = new User(1, "Engin", "Demiroğ", "Ankara", 36)
-let ahmet = new User(2, "Ahmet", "ALAN", "Bursa")
-let furkan = new User(3, "Furkan", "ARTAR", "Bursa", 18)
-let yeni = new User(1, "yeni", "yeni", "yeni", 11)
 employeeService.load();
+employeeService.add(ahmet);
+employeeService.add(cemile);
+console.log("Kullanıcı listesi: ", employeeService.getAll());
 
-employeeService.add(engin);
-// employeeService.add(ahmet);
-// employeeService.add(furkan);
-
-console.log(employeeService.getAll());
+console.log("Elastic logger'daki tüm kayıtlar: ", elasticLogger.getAll());
 // employeeService.getBySorted()
 // employeeService.getById(2)
 // employeeService.delete(2)
-// employeeService.update(yeni);
+// employeeService.update(newEmployee);
 // employeeService.getAll()
-
-
