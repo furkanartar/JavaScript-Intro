@@ -3,7 +3,7 @@ export default class BaseLogger {
     this.datas = [];
   }
 
-  log(data) {
+  log(data, message) {
     this.datas.push(data);
   }
 

@@ -5,7 +5,7 @@ export default class MongoLogger extends BaseLogger {
     super();
     this.datas = [];
   }
-
+  
   log(data) {
     this.datas.push(data);
   }
