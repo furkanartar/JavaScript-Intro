@@ -41,7 +41,7 @@ export default class CustomerService {
 
   delete(id) {
     this.customers = this.customers.filter((customer) => customer.id !== id);
-    this.loggerService.log(new SuccessDataResult(customer, this.messages.delete(customer.firstName)));
+    this.loggerService.log(new SuccessDataResult(id, this.messages.delete(id)));
   }
 
   getAll() {

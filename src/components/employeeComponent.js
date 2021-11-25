@@ -9,12 +9,12 @@ const elasticLogger = new ElasticLogger()
 const customEmployeeValidator = new CustomEmployeeValidator()
 const employeeService = new EmployeeService(elasticLogger, customEmployeeValidator)
 
-let ahmet = new Employee(2, "Ahmet", "ALAN", "Bursa")
 let cemile = new Employee(2, "Cemile", "ÖZALAN", "Antalya", 18, 19999)
+let ahmet = new Employee(2, "Ahmet", "ALAN", "Bursa")
 
 employeeService.load();
-employeeService.add(ahmet);
 employeeService.add(cemile);
+employeeService.add(ahmet);
 console.log("Kullanıcı listesi: ", employeeService.getAll());
 
 console.log("Elastic logger'daki tüm kayıtlar: ", elasticLogger.getAll());

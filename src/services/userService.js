@@ -28,20 +28,20 @@ export default class UserService {
   }
 
   update(newUser) {
-    let result = this.userValidatorService.validate(user);
+    let result = this.userValidatorService.validate(newUser);
 
     if (result.length > 0) {
       this.loggerService.log(new ErrorDataResult(newUser, result));
     } else {
       let olduserIndex = this.users.findIndex((user) => user.id === newUser.id);
-      this.user[olduserIndex] = newUser;
+      this.users[olduserIndex] = newUser;
       this.loggerService.log(new SuccessDataResult(newUser, this.messages.update(newUser.firstName)));
     }
   }
 
   delete(id) {
     this.users = this.users.filter((user) => user.id !== id);
-    this.loggerService.log(new SuccessDataResult(user, this.messages.delete(user.firstName)));
+    this.loggerService.log(new SuccessDataResult(id, this.messages.delete(id)));
   }
 
   getAll() {

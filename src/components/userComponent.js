@@ -19,6 +19,6 @@ console.log("Mongo logger'daki tüm kayıtlar: ", mongoLogger.getAll());
 
 // console.log(userService.getBySorted());
 // console.log(userService.getById(7));
-// console.log(userService.delete(8));
-// console.log(userService.update(newUser));
-// console.log(userService.getAll());
+// userService.delete(7);
+// let newUser = new User(7, "Ertan", "CEVHER", "Bulgaristan", 17);
+// userService.update(newUser)

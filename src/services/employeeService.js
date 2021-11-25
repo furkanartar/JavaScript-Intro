@@ -41,7 +41,7 @@ export default class EmployeeService {
 
   delete(id) {
     this.employees = this.employees.filter((employee) => employee.id !== id);
-    this.loggerService.log(new SuccessDataResult(employee, this.messages.delete(uemployeeer.firstName)));
+    this.loggerService.log(new SuccessDataResult(id, this.messages.delete(id)));
   }
 
   getAll() {
