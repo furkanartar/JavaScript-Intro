@@ -19,7 +19,7 @@ export default class CustomerService {
   add(customer) {
     let result = this.customerValidatorService.validate(customer);
 
-    if (result.length > 0) {
+    if (Array.isArray(result)) {
       this.loggerService.log(new ErrorDataResult(customer, result));
     } else {
       this.customers.push(customer);

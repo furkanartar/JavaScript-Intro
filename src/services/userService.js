@@ -19,7 +19,7 @@ export default class UserService {
   add(user) {
     let result = this.userValidatorService.validate(user);
 
-    if (result.length > 0) {
+    if (Array.isArray(result)) {
       this.loggerService.log(new ErrorDataResult(user, result));
     } else {
       this.users.push(user);

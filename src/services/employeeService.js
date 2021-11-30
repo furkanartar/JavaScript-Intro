@@ -19,7 +19,7 @@ export default class EmployeeService {
   add(employee) {
     let result = this.employeeValidatorService.validate(employee);
 
-    if (result.length > 0) {
+    if (Array.isArray(result)) {
       this.loggerService.log(new ErrorDataResult(employee, result));
     } else {
       this.employees.push(employee);

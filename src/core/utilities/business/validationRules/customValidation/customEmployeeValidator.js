@@ -17,7 +17,12 @@ export default class EmployeeValidator extends CustomValidator {
     errors.push(this.checkSalaryField(employee.salary));
     errors.push(this.checkAgeField(employee.age));
 
-    return errors.filter(error => error !== undefined);
+    let filterErrors = errors.filter((error) => error !== undefined);
+    if (filterErrors.length > 1) {
+      return filterErrors;
+    } else {
+      return filterErrors[0];
+    }
   }
 
   checkIdField(id) {

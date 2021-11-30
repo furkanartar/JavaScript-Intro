@@ -1,8 +1,8 @@
-import Messages from "../../../constants/messages.js"
+import Messages from "../../../constants/messages.js";
 import CustomValidator from "./customValidator.js";
 
-export default class CustomUserValidator extends CustomValidator{
-  constructor(){
+export default class CustomUserValidator extends CustomValidator {
+  constructor() {
     super();
     this.messages = new Messages();
   }
@@ -16,34 +16,47 @@ export default class CustomUserValidator extends CustomValidator{
     errors.push(this.checkCityField(user.city));
     errors.push(this.checkAgeField(user.age));
 
-    return errors.filter(error => error !== undefined);
+    let filterErrors = errors.filter((error) => error !== undefined);
+    if (filterErrors.length > 1) {
+      return filterErrors;
+    } else {
+      return filterErrors[0];
+    }
   }
 
-  checkIdField(userId){
+  checkIdField(userId) {
     if (!userId || isNaN(userId)) {
       return this.messages.checkField("Id");
     }
   }
 
-  checkFirstNameField(firstName){
-    if (!firstName || firstName.length < 3 || firstName.toLowerCase().match(/[^a-zA-ZİığüşöçĞÜŞÖÇİ]/)) {
+  checkFirstNameField(firstName) {
+    if (
+      !firstName ||
+      firstName.length < 3 ||
+      firstName.toLowerCase().match(/[^a-zA-ZİığüşöçĞÜŞÖÇİ]/)
+    ) {
       return this.messages.checkField("Ad");
     }
   }
 
-  checkLastNameField(lastName){
-    if (!lastName || lastName.length < 3 || lastName.match(/[^a-zA-ZİığüşöçĞÜŞÖÇİ]/)) {
+  checkLastNameField(lastName) {
+    if (
+      !lastName ||
+      lastName.length < 3 ||
+      lastName.match(/[^a-zA-ZİığüşöçĞÜŞÖÇİ]/)
+    ) {
       return this.messages.checkField("Soyad");
     }
   }
 
-  checkCityField(city){
+  checkCityField(city) {
     if (!city || city.length < 3 || city.match(/[^a-zA-Z]/)) {
       return this.messages.checkField("Şehir");
     }
   }
 
-  checkAgeField(age){
+  checkAgeField(age) {
     if (!age || isNaN(age) || age < 1 || age > 120) {
       return this.messages.checkField("Yaş");
     }

@@ -17,7 +17,12 @@ export default class CustomCustomerValidator extends CustomValidator{
     errors.push(this.checkCreditCardNumberField(customer.creditCardNumber));
     errors.push(this.checkAgeField(customer.age));
 
-    return errors.filter(error => error !== undefined);
+    let filterErrors = errors.filter((error) => error !== undefined);
+    if (filterErrors.length > 1) {
+      return filterErrors;
+    } else {
+      return filterErrors[0];
+    }
   }
 
   checkIdField(id){
